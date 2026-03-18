@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sumer Singh — Professional Feedback</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --white: #ffffff;
+    --off-white: #f8f8f6;
+    --ink: #0e1117;
+    --ink-mid: #3a3f4a;
+    --ink-light: #7a8090;
+    --blue: #1a4b8c;
+    --blue-mid: #2d6bcf;
+    --blue-light: #dde9f8;
+    --blue-pale: #f0f5fc;
+    --accent: #c8a96e;
+    --border: #e0e5ee;
+    --radius: 4px;
+    --radius-lg: 12px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── NAV ─────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--blue);
+  }
+  .nav-label {
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+
+  /* ─── HERO ────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 120px 24px 80px;
+    background: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* subtle grid texture */
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  /* blue gradient blob */
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, #dde9f8 0%, transparent 70%);
+    top: -200px; right: -200px;
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 760px;
+    text-align: center;
+    position: relative; z-index: 1;
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--blue-mid);
+    background: var(--blue-pale);
+    border: 1px solid var(--blue-light);
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.2s ease forwards;
+  }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.35s ease forwards;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--blue);
+  }
+
+  .divider {
+    width: 48px; height: 2px;
+    background: linear-gradient(90deg, var(--blue-mid), var(--accent));
+    margin: 0 auto 32px;
+    border-radius: 2px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.45s ease forwards;
+  }
+
+  .hero-text {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--ink-mid);
+    line-height: 1.85;
+    max-width: 640px;
+    margin: 0 auto 48px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.55s ease forwards;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 16px 44px;
+    background: var(--blue);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+    box-shadow: 0 4px 20px rgba(26,75,140,0.18);
+    opacity: 0;
+    animation: fadeUp 0.7s 0.7s ease forwards;
+  }
+  .btn-primary:hover {
+    background: var(--blue-mid);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(26,75,140,0.28);
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    opacity: 0;
+    animation: fadeIn 1s 1.2s ease forwards;
+  }
+  .scroll-hint span {
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .scroll-arrow {
+    width: 1px; height: 32px;
+    background: linear-gradient(to bottom, var(--blue-mid), transparent);
+    animation: scrollPulse 1.6s ease-in-out infinite;
+  }
+
+  /* ─── FORM SECTION ────────────────────────────── */
+  .form-section {
+    background: var(--off-white);
+    padding: 96px 24px;
+    position: relative;
+  }
+
+  .form-section::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blue-light), transparent);
+  }
+
+  .section-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--blue-mid);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  .section-sub {
+    font-size: 0.95rem;
+    color: var(--ink-light);
+    margin-bottom: 48px;
+    font-weight: 300;
+  }
+
+  .form-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.05);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .field.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-mid);
+  }
+  label .req { color: var(--blue-mid); margin-left: 2px; }
+
+  input[type="text"],
+  input[type="tel"],
+  textarea {
+    width: 100%;
+    padding: 13px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--ink);
+    background: var(--off-white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    resize: none;
+  }
+  input[type="text"]:focus,
+  input[type="tel"]:focus,
+  textarea:focus {
+    border-color: var(--blue-mid);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(45,107,207,0.1);
+  }
+  input::placeholder, textarea::placeholder { color: var(--ink-light); }
+  textarea { min-height: 120px; line-height: 1.65; }
+
+  .form-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 32px 0;
+  }
+
+  .questions-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+
+  .question-block { margin-bottom: 24px; }
+
+  .question-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px;
+    background: var(--blue);
+    color: var(--white);
+    font-size: 0.7rem;
+    font-weight: 500;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  .question-text {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-mid);
+    margin-bottom: 10px;
+    display: flex; align-items: center;
+  }
+
+  .submit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 36px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .submit-note {
+    font-size: 0.78rem;
+    color: var(--ink-light);
+    font-weight: 300;
+  }
+
+  .btn-submit {
+    padding: 15px 40px;
+    background: var(--blue);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+    box-shadow: 0 4px 16px rgba(26,75,140,0.18);
+  }
+  .btn-submit:hover {
+    background: var(--blue-mid);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(26,75,140,0.28);
+  }
+
+  /* Error state */
+  input.error, textarea.error {
+    border-color: #c0392b;
+    box-shadow: 0 0 0 3px rgba(192,57,43,0.08);
+  }
+  .error-msg {
+    font-size: 0.75rem;
+    color: #c0392b;
+    margin-top: 4px;
+    display: none;
+  }
+  .error-msg.show { display: block; }
+
+  /* ─── SUCCESS ─────────────────────────────────── */
+  .success-card {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 64px 32px;
+  }
+  .success-card.show { display: flex; }
+
+  .success-icon {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: var(--blue-pale);
+    border: 1px solid var(--blue-light);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 24px;
+  }
+  .success-icon svg { width: 28px; height: 28px; stroke: var(--blue-mid); }
+
+  .success-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .success-msg {
+    font-size: 1rem;
+    color: var(--ink-mid);
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 400px;
+  }
+
+  /* ─── FOOTER ──────────────────────────────────── */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 32px 24px;
+    font-size: 0.82rem;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+  }
+  footer span { color: var(--accent); }
+
+  /* ─── ANIMATIONS ──────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 0.7; }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { transform: scaleY(1); opacity: 0.5; }
+    50%       { transform: scaleY(1.3); opacity: 1; }
+  }
+
+  /* ─── RESPONSIVE ──────────────────────────────── */
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .form-card { padding: 28px 20px; }
+    .submit-row { flex-direction: column; align-items: stretch; }
+    .btn-submit { width: 100%; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Sumer Singh</span>
+  <span class="nav-label">New Shop 24×7 &nbsp;·&nbsp; Brand Partnerships</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Brand Partnerships Intern</div>
+    <h1 class="hero-name">Hello, I'm <em>Sumer Singh.</em></h1>
+    <div class="divider"></div>
+    <p class="hero-text">
+      I am currently interning at New Shop 24×7 under the Brand Partnerships team, where I've had the privilege of meeting brand owners and senior management teams of major FMCG brands. It truly feels like a once-in-a-lifetime experience — getting to interact with the brands I've been a consumer of since childhood doesn't feel like a job at all. It would mean a great deal if you could take a minute or two to leave feedback about our meeting and your impression of me as a business associate.
+    </p>
+    <button class="btn-primary" onclick="document.getElementById('feedback').scrollIntoView({behavior:'smooth'})">
+      Leave Feedback
+    </button>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- FORM SECTION -->
+<section class="form-section" id="feedback">
+  <div class="section-wrap">
+    <span class="section-label">Share your thoughts</span>
+    <h2 class="section-title">Your Feedback</h2>
+    <p class="section-sub">All fields are required. Your response is greatly appreciated.</p>
+
+    <div class="form-card">
+
+      <!-- SUCCESS STATE -->
+      <div class="success-card" id="successCard">
+        <div class="success-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+        </div>
+        <h3 class="success-title">Thank you!</h3>
+        <p class="success-msg">Thank you for taking the time to share your feedback. It means a lot and will help me grow as a professional.</p>
+      </div>
+
+      <!-- FORM -->
+      <form id="feedbackForm" novalidate>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">Full Name <span class="req">*</span></label>
+            <input type="text" id="name" name="name" placeholder="Your name" />
+            <span class="error-msg" id="name-err">Please enter your name.</span>
+          </div>
+          <div class="field">
+            <label for="company">Company <span class="req">*</span></label>
+            <input type="text" id="company" name="company" placeholder="Organisation name" />
+            <span class="error-msg" id="company-err">Please enter your company.</span>
+          </div>
+          <div class="field">
+            <label for="occupation">Occupation <span class="req">*</span></label>
+            <input type="text" id="occupation" name="occupation" placeholder="Your role / designation" />
+            <span class="error-msg" id="occupation-err">Please enter your occupation.</span>
+          </div>
+          <div class="field">
+            <label for="mobile">Mobile Number <span class="req">*</span></label>
+            <input type="tel" id="mobile" name="mobile" placeholder="+91 00000 00000" />
+            <span class="error-msg" id="mobile-err">Please enter a valid mobile number.</span>
+          </div>
+        </div>
+
+        <hr class="form-divider" />
+
+        <p class="questions-label">Feedback Questions</p>
+
+        <div class="question-block">
+          <p class="question-text"><span class="question-num">1</span> What did you think of our meeting?</p>
+          <textarea id="q1" name="q1" placeholder="Share your thoughts about our interaction…"></textarea>
+          <span class="error-msg" id="q1-err">Please share your thoughts on our meeting.</span>
+        </div>
+
+        <div class="question-block">
+          <p class="question-text"><span class="question-num">2</span> What are the things I should work on?</p>
+          <textarea id="q2" name="q2" placeholder="Any areas of improvement or advice you'd like to share…"></textarea>
+          <span class="error-msg" id="q2-err">Please share any areas I should work on.</span>
+        </div>
+
+        <div class="submit-row">
+          <span class="submit-note">Your response is confidential and used only for personal growth.</span>
+          <button type="submit" class="btn-submit">Submit Feedback</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>"</span>Thank you for helping me grow professionally.<span>"</span>
+  &nbsp;&nbsp;·&nbsp;&nbsp; Sumer Singh &nbsp;·&nbsp; New Shop 24×7
+</footer>
+
+<script>
+  const form = document.getElementById('feedbackForm');
+  const successCard = document.getElementById('successCard');
+
+  function validateField(id, errId, checkFn) {
+    const el = document.getElementById(id);
+    const err = document.getElementById(errId);
+    const valid = checkFn(el.value.trim());
+    el.classList.toggle('error', !valid);
+    err.classList.toggle('show', !valid);
+    return valid;
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const v1 = validateField('name', 'name-err', v => v.length > 0);
+    const v2 = validateField('company', 'company-err', v => v.length > 0);
+    const v3 = validateField('occupation', 'occupation-err', v => v.length > 0);
+    const v4 = validateField('mobile', 'mobile-err', v => /^[\d\s\+\-\(\)]{7,}$/.test(v));
+    const v5 = validateField('q1', 'q1-err', v => v.length > 0);
+    const v6 = validateField('q2', 'q2-err', v => v.length > 0);
+
+    if (v1 && v2 && v3 && v4 && v5 && v6) {
+      // Collect data (simulated submission)
+      const data = {
+        name: document.getElementById('name').value.trim(),
+        company: document.getElementById('company').value.trim(),
+        occupation: document.getElementById('occupation').value.trim(),
+        mobile: document.getElementById('mobile').value.trim(),
+        q1: document.getElementById('q1').value.trim(),
+        q2: document.getElementById('q2').value.trim(),
+        submittedAt: new Date().toISOString()
+      };
+      console.log('Feedback submitted:', data);
+
+      form.style.transition = 'opacity 0.4s';
+      form.style.opacity = '0';
+      setTimeout(() => {
+        form.style.display = 'none';
+        successCard.classList.add('show');
+      }, 400);
+    }
+  });
+
+  // Live clear errors on input
+  ['name','company','occupation','mobile','q1','q2'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', () => {
+      el.classList.remove('error');
+      document.getElementById(id + '-err')?.classList.remove('show');
+    });
+  });
+</script>
+</body>
+</html>

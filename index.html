@@ -501,7 +501,9 @@
       </div>
 
       <!-- FORM -->
-<form id="feedbackForm" action="https://formspree.io/f/{form_id}" method="post">
+      <form id="feedbackForm" novalidate>
+
+        <div class="form-grid">
           <div class="field">
             <label for="name">Full Name <span class="req">*</span></label>
             <input type="text" id="name" name="name" placeholder="Your name" />
@@ -559,6 +561,7 @@
 <script>
   const form = document.getElementById('feedbackForm');
   const successCard = document.getElementById('successCard');
+  const submitBtn = form.querySelector('.btn-submit');
 
   function validateField(id, errId, checkFn) {
     const el = document.getElementById(id);
@@ -569,35 +572,57 @@
     return valid;
   }
 
-  form.addEventListener('submit', function(e) {
+  form.addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const v1 = validateField('name', 'name-err', v => v.length > 0);
-    const v2 = validateField('company', 'company-err', v => v.length > 0);
+    const v1 = validateField('name',       'name-err',       v => v.length > 0);
+    const v2 = validateField('company',    'company-err',    v => v.length > 0);
     const v3 = validateField('occupation', 'occupation-err', v => v.length > 0);
-    const v4 = validateField('mobile', 'mobile-err', v => /^[\d\s\+\-\(\)]{7,}$/.test(v));
-    const v5 = validateField('q1', 'q1-err', v => v.length > 0);
-    const v6 = validateField('q2', 'q2-err', v => v.length > 0);
+    const v4 = validateField('mobile',     'mobile-err',     v => /^[\d\s\+\-\(\)]{7,}$/.test(v));
+    const v5 = validateField('q1',         'q1-err',         v => v.length > 0);
+    const v6 = validateField('q2',         'q2-err',         v => v.length > 0);
 
-    if (v1 && v2 && v3 && v4 && v5 && v6) {
-      // Collect data (simulated submission)
-      const data = {
-        name: document.getElementById('name').value.trim(),
-        company: document.getElementById('company').value.trim(),
-        occupation: document.getElementById('occupation').value.trim(),
-        mobile: document.getElementById('mobile').value.trim(),
-        q1: document.getElementById('q1').value.trim(),
-        q2: document.getElementById('q2').value.trim(),
-        submittedAt: new Date().toISOString()
-      };
-      console.log('Feedback submitted:', data);
+    if (!v1 || !v2 || !v3 || !v4 || !v5 || !v6) return;
 
-      form.style.transition = 'opacity 0.4s';
-      form.style.opacity = '0';
-      setTimeout(() => {
-        form.style.display = 'none';
-        successCard.classList.add('show');
-      }, 400);
+    // Loading state
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    const payload = {
+      name:       document.getElementById('name').value.trim(),
+      company:    document.getElementById('company').value.trim(),
+      occupation: document.getElementById('occupation').value.trim(),
+      mobile:     document.getElementById('mobile').value.trim(),
+      'What did you think of our meeting?':      document.getElementById('q1').value.trim(),
+      'What are the things I should work on?':   document.getElementById('q2').value.trim(),
+    };
+
+    try {
+      const res = await fetch('https://formspree.io/f/xzdjyean', {
+        method:  'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        // Success — show thank-you card
+        form.style.transition = 'opacity 0.4s';
+        form.style.opacity = '0';
+        setTimeout(() => {
+          form.style.display = 'none';
+          successCard.classList.add('show');
+        }, 400);
+      } else {
+        const data = await res.json();
+        const msg = (data.errors || []).map(e => e.message).join(', ') || 'Submission failed. Please try again.';
+        alert(msg);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Feedback';
+      }
+    } catch (err) {
+      alert('Network error — please check your connection and try again.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Feedback';
     }
   });
 
